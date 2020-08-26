@@ -1,0 +1,393 @@
+{
+	"info": {
+		"_postman_id": "83dd6e0c-7022-4dec-91b8-798ab9454abc",
+		"name": "AnypointPlatform APIs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Set Up",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "2a506160-e415-45dc-a072-b5b333c7e2eb",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "4c3be80c-783f-4c7e-a141-cccffa53d106",
+								"exec": [
+									"const jar = pm.cookies.jar();",
+									"jar.clear(pm.request.url, function (error) {",
+									"  console.log(\"Clear Cookies\");",
+									"});",
+									"",
+									"",
+									"",
+									"var data = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"api-auth-header\", \"Bearer \" + data.access_token);",
+									"",
+									"",
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"access_token\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "password",
+									"value": "{{anypoint-password}}",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "{{anypoint-username}}",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://anypoint.mulesoft.com/accounts/login",
+							"protocol": "https",
+							"host": [
+								"anypoint",
+								"mulesoft",
+								"com"
+							],
+							"path": [
+								"accounts",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Details (Get org-id): api/me",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eca3468a-aad3-48eb-b3a0-7bc0d4c03a2f",
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"",
+									"var data = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"org-id\", data.user.organizationId);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{api-auth-header}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/accounts/api/me",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"accounts",
+								"api",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Environments (Get Env)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9b2d5626-2c85-468b-afe3-330b3d8f239f",
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{api-auth-header}}"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/accounts/api/organizations/{{org-id}}/environments",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"accounts",
+								"api",
+								"organizations",
+								"{{org-id}}",
+								"environments"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Applications",
+			"item": [
+				{
+					"name": "List all (/applications)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0d82278e-4e91-4126-b287-f15649844664",
+								"exec": [
+									"var jsonData = pm.response.json();"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{api-auth-header}}"
+							},
+							{
+								"key": "X-ANYPNT-ENV-ID",
+								"value": "{{environment-id}}",
+								"type": "text"
+							},
+							{
+								"key": "X-ANYPNT-ORG-ID",
+								"value": "{{org-id}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://anypoint.mulesoft.com/cloudhub/api/applications",
+							"protocol": "https",
+							"host": [
+								"anypoint",
+								"mulesoft",
+								"com"
+							],
+							"path": [
+								"cloudhub",
+								"api",
+								"applications"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "d53e0fe9-afe9-4366-9f7f-59785791d9aa",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "fff6f5e6-11da-4b70-b4e8-7944fe3341b9",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Application",
+			"item": [
+				{
+					"name": "List App (/applications/{domain})",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "fb221076-4634-4daa-87f3-c6de80e110ba",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{api-auth-header}}"
+							},
+							{
+								"key": "X-ANYPNT-ENV-ID",
+								"value": "{{environment-id}}",
+								"type": "text"
+							},
+							{
+								"key": "X-ANYPNT-ORG-ID",
+								"value": "{{org-id}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://anypoint.mulesoft.com/cloudhub/api/applications/{{domain}}",
+							"protocol": "https",
+							"host": [
+								"anypoint",
+								"mulesoft",
+								"com"
+							],
+							"path": [
+								"cloudhub",
+								"api",
+								"applications",
+								"{{domain}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List App (/applications/{domain}/status)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "15c1d0d8-a6ab-4298-8579-f7ee0ce2526a",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{api-auth-header}}"
+							},
+							{
+								"key": "X-ANYPNT-ENV-ID",
+								"type": "text",
+								"value": "{{environment-id}}"
+							},
+							{
+								"key": "X-ANYPNT-ORG-ID",
+								"type": "text",
+								"value": "{{org-id}}"
+							}
+						],
+						"url": {
+							"raw": "https://anypoint.mulesoft.com/cloudhub/api/applications/{{domain}}/status",
+							"protocol": "https",
+							"host": [
+								"anypoint",
+								"mulesoft",
+								"com"
+							],
+							"path": [
+								"cloudhub",
+								"api",
+								"applications",
+								"{{domain}}",
+								"status"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "5d410afc-f356-4c42-917c-e31c00ce4398",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "5b3d592f-2bac-4a76-ae45-fcbd5142c079",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

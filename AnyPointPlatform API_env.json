@@ -1,0 +1,59 @@
+{
+	"id": "0f1080fa-362c-4968-b54b-e9260dfd95e1",
+	"name": "PlatformAPIs-Environment (Template)",
+	"values": [
+		{
+			"key": "anypoint-username",
+			"value": "Anypoint Platform Username",
+			"enabled": true
+		},
+		{
+			"key": "anypoint-password",
+			"value": "Anypoint Platform Password",
+			"enabled": true
+		},
+		{
+			"key": "host",
+			"value": "anypoint.mulesoft.com",
+			"enabled": true
+		},
+		{
+			"key": "api-auth-header",
+			"value": "Bearer 67e9708a-4ae0-4d0e-814c-1b51b395dea4",
+			"enabled": true
+		},
+		{
+			"key": "environment-id",
+			"value": "2c3e9111-0375-46bb-befe-99c029b748a9",
+			"enabled": true
+		},
+		{
+			"key": "org-id",
+			"value": "215f9659-b21c-4622-9c14-2f20cb894e87",
+			"enabled": true
+		},
+		{
+			"key": "business-group-org-id",
+			"value": "2c3e9111-0375-46bb-befe-99c029b748a9",
+			"enabled": true
+		},
+		{
+			"key": "domain",
+			"value": "greetingsapp",
+			"enabled": true
+		},
+		{
+			"key": "search-value",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "name",
+			"value": "ankur",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2020-08-26T19:27:06.988Z",
+	"_postman_exported_using": "Postman/7.31.1"
+}
